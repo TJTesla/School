@@ -1,4 +1,4 @@
-package com.company;
+ 
 
 import java.awt.*;
 import java.awt.event.*;
@@ -32,6 +32,7 @@ public class Frame extends JFrame implements ActionListener
     JButton btnDelete = new JButton("Delete");
 
     boolean check = false;
+    boolean questionGerToEn = true;
     Vocabulary curQuestion, curAnswer;
     Vocabulary curVocab;
     String curGerman;
@@ -64,10 +65,14 @@ public class Frame extends JFrame implements ActionListener
 
         deToEn.setBounds(0, 185, 100, 30);
         deToEn.setSelected(true);
+        deToEn.setActionCommand("GeToEn");
+        deToEn.addActionListener(this);
         deToEn.setVisible(true);
 
         enToDe.setBounds(100, 185, 100, 30);
         enToDe.setSelected(false);
+        enToDe.setActionCommand("EnToGe");
+        enToDe.addActionListener(this);
         enToDe.setVisible(true);
 
         langBtnGroup.add(deToEn);
@@ -129,9 +134,17 @@ public class Frame extends JFrame implements ActionListener
             case "delete":
                 deleteElement();
                 break;
+                
+            case "GeToEn":
+                if (!check) questionGerToEn = true;
+                break;
+                
+            case "EnToGe":
+                if (!check) questionGerToEn = false;
+                break;
 
             default:
-                System.out.println("Unidentified action command: " + evt.getActionCommand());
+                System.out.println("Undefined action command: " + evt.getActionCommand());
                 break;
         }
     }
@@ -167,10 +180,11 @@ public class Frame extends JFrame implements ActionListener
     }
 
     private void checkAnswer() {
-        check = !check;
         if (txtInUsrAnswer.getText().trim().equals("")) {
             return;
         }
+        check = !check;
+        
         boolean correct = checkForCorrectness();
         if (correct) {
             lblAnswer.setForeground(Color.GREEN);
@@ -204,15 +218,8 @@ public class Frame extends JFrame implements ActionListener
         if (!vocabList.hasAccess()) {
             vocabList.toFirst();
         }
-
-        if (deToEn.isSelected()) {
-            curVocab = vocabList.getContent();
-            //curQuestion = vocabList.getContent().getRandomWord(Language.FIRST);
-            //curAnswer = vocabList.getContent().getRandomWord(Language.SECOND);
-        } else {
-            //curQuestion = vocabList.getContent().getRandomWord(Language.SECOND);
-            //curAnswer = vocabList.getContent().getRandomWord(Language.FIRST);
-        }
+        
+        curVocab = vocabList.getContent();
         curGerman = vocabList.getContent().getFirstWordInFirstLanguage();
 
         lblQuestion.setText( curVocab.getRandomWord(getLanguage()) );
@@ -227,7 +234,7 @@ public class Frame extends JFrame implements ActionListener
     }
 
     public Language getLanguage() {
-        if (deToEn.isSelected()) {
+        if (questionGerToEn) {
             return Language.FIRST;
         } else {
             return Language.SECOND;
@@ -235,7 +242,7 @@ public class Frame extends JFrame implements ActionListener
     }
 
     public Language getInverseLanguage() {
-        if (deToEn.isSelected()) {
+        if (questionGerToEn) {
             return Language.SECOND;
         } else {
             return Language.FIRST;
