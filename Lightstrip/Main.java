@@ -40,6 +40,8 @@ public class Main {
             while (lichterkette.hasAccess()) {
                 if (counter % 2 == 0) {
                     lichterkette.getContent().lichtAn();
+                } else {
+                    lichterkette.getContent().lichtAus();
                 }
                 lichterkette.next();
                 counter++;
@@ -52,6 +54,8 @@ public class Main {
             while (lichterkette.hasAccess()) {
                 if (counter % 3 == 0) {
                     lichterkette.getContent().lichtAn();
+                } else {
+                    lichterkette.getContent().lichtAus();
                 }
                 lichterkette.next();
                 counter++;
