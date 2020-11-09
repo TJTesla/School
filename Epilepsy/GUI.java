@@ -52,7 +52,7 @@ public class GUI extends JFrame implements ActionListener
         btn.addActionListener(this);
         btn.setVisible(true);
         
-        timerOne = new Timer(10, new ActionListener() {
+        timerOne = new Timer(15, new ActionListener() {
             public void actionPerformed (ActionEvent evt) {
                 startEpilepsie();
             }
